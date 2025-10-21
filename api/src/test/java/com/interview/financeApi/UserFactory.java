@@ -19,6 +19,10 @@ public class UserFactory {
                 lastName == null ? "Smith" : lastName);
     }
 
+    public User createUser() {
+        return new User(1L, "Stan", "Smith");
+    }
+
     public List<User> createUsers(Integer numberRequired) {
         List<User> users = new ArrayList<>();
         Long nextId = 1L;
