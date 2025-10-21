@@ -13,13 +13,13 @@ import java.util.Random;
 @Service
 @NoArgsConstructor
 public class UserFactory {
-    public static User createUser(@Nullable Long id, @Nullable String firstName, @Nullable String lastName) {
+    public User createUser(@Nullable Long id, @Nullable String firstName, @Nullable String lastName) {
         return new User(id == null ? 1L : id,
                 firstName == null ? "Stan" : firstName,
                 lastName == null ? "Smith" : lastName);
     }
 
-    public static List<User> createUsers(Integer numberRequired) {
+    public List<User> createUsers(Integer numberRequired) {
         List<User> users = new ArrayList<>();
         Long nextId = 1L;
         for (int i = 0; i < numberRequired; i++) {
