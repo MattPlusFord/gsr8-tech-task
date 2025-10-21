@@ -1,6 +1,6 @@
 package com.interview.financeApi.services;
 
-import com.interview.financeApi.UserFactory;
+import com.interview.financeApi.factories.UserFactory;
 import com.interview.financeApi.models.User;
 import com.interview.financeApi.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,13 +25,12 @@ public class UserServiceTests {
 
     private UserService userService;
 
-    private UserFactory userFactory;
+    private final UserFactory userFactory = new UserFactory();
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
         userService = new UserService(userRepository);
-        userFactory = new UserFactory();
     }
 
     @Test

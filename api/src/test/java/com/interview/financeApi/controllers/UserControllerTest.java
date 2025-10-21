@@ -1,6 +1,6 @@
 package com.interview.financeApi.controllers;
 
-import com.interview.financeApi.UserFactory;
+import com.interview.financeApi.factories.UserFactory;
 import com.interview.financeApi.models.User;
 import com.interview.financeApi.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,13 +24,12 @@ public class UserControllerTest {
     private UserService userService;
 
     private UserController userController;
-    private UserFactory userFactory;
+    private final UserFactory userFactory = new UserFactory();
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
         userController = new UserController(userService);
-        userFactory = new UserFactory();
     }
 
     @Test
