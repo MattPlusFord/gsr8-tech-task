@@ -1,4 +1,4 @@
-package com.interview.financeApi;
+package com.interview.financeApi.factories;
 
 import com.interview.financeApi.models.User;
 import lombok.NoArgsConstructor;
