@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/users/details")
-    public ResponseEntity<User> getUserDetails(@RequestHeader(required = true, name = X_USER_ID) Long userId) {
+    public ResponseEntity<User> getUserDetails(@RequestHeader(name = X_USER_ID) Long userId) {
         User user = userService.findById(userId);
         if (user == null) {
             return ResponseEntity.notFound().build();

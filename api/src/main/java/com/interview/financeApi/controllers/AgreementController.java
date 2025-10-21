@@ -18,7 +18,7 @@ public class AgreementController {
     private final AgreementService agreementService;
 
     @GetMapping("/users/agreements")
-    public ResponseEntity<List<Agreement>> loadAccount(@RequestHeader(required = true, name = X_USER_ID) Long userId) {
+    public ResponseEntity<List<Agreement>> loadAccount(@RequestHeader(name = X_USER_ID) Long userId) {
         List<Agreement> financeAccount = agreementService.findByUserId(userId);
         return ResponseEntity.ok().body(financeAccount);
     }
