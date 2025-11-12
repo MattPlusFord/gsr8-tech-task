@@ -2,7 +2,8 @@ import './commands'
 
 import { mount } from 'cypress/react18'
 import {ReactNode} from "react";
-import {BrowserRouter, MemoryRouter} from "react-router-dom";
+import { MemoryRouter, MemoryRouterProps} from "react-router-dom";
+import ErrorBoundary from "../../src/components/errors/ErrorBoundary.tsx";
 
 declare global {
   namespace Cypress {
@@ -13,23 +14,34 @@ declare global {
   }
 }
 
+export type MockRoute = {
+    path: string;
+    component: ReactNode;
+};
+
 type MountOptions = {
-  router?: {type: "browser"} | {type: "memory"; initialEntries: string[]};
+  router?: MemoryRouterProps;
 };
 
 export enum MountLayer {
   Router = "Router",
+  ErrorBoundary = "ErrorBoundary",
 }
 
 function addRouterWrappedNode(component: ReactNode, routerOptions?: MountOptions['router']) {
-  if (routerOptions && routerOptions.type === "memory") {
     return (
-        <MemoryRouter initialEntries={routerOptions.initialEntries ? routerOptions.initialEntries : []}>
+        <MemoryRouter initialEntries={routerOptions?.initialEntries ? routerOptions.initialEntries : []}>
           {component}
         </MemoryRouter>
     )
-  }
-  return (<BrowserRouter>{component}</BrowserRouter>)
+}
+
+function addErrorBoundaryWrappedNode(component: ReactNode) {
+    return (
+        <ErrorBoundary supportUrl={'https://support.ford.com'}>
+            {component}
+        </ErrorBoundary>
+    )
 }
 
 function mountWith(component: ReactNode, mountLayers: MountLayer[], mountOptions?: MountOptions) {
@@ -43,6 +55,10 @@ function mountWith(component: ReactNode, mountLayers: MountLayer[], mountOptions
 
   if (mountLayers.includes(MountLayer.Router)) {
     mountComponents = distinctLayerMount(MountLayer.Router, (node: ReactNode) => addRouterWrappedNode(node, mountOptions?.router));
+  }
+
+  if (mountLayers.includes(MountLayer.ErrorBoundary)) {
+    mountComponents = distinctLayerMount(MountLayer.ErrorBoundary, (node: ReactNode) => addErrorBoundaryWrappedNode(node));
   }
 
   cy.mount(mountComponents);
