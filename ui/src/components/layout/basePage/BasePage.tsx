@@ -2,6 +2,7 @@ import React from "react";
 import { useInRouterContext } from "react-router-dom";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
+import "./base-page.css";
 
 const BasePage: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     if (!useInRouterContext()) {
@@ -10,11 +11,11 @@ const BasePage: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     }
 
     return (
-        <>
+        <div className='page'>
             <Header />
-            <main>{children}</main>
+            <main className='page-body'>{children}</main>
             <Footer />
-        </>
+        </div>
     );
 };
 

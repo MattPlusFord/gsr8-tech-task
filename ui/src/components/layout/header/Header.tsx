@@ -1,10 +1,11 @@
 import React from "react";
 import { Link, useInRouterContext } from "react-router-dom";
+import "./header.css";
 
 const Header: React.FC = () => {
     if (!useInRouterContext()) {
         console.error("Header must be used within a Router context");
-        // throw new Error("Header must be used within a Router context");
+        throw new Error("Header must be used within a Router context");
     }
 
     return (

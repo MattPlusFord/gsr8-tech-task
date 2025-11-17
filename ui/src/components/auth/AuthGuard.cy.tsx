@@ -1,26 +1,36 @@
 import AuthGuard from "./AuthGuard.tsx";
-import {MockRoute, MountLayer} from "../../../cypress/support/component.tsx";
+import {MountLayer} from "../../../cypress/support/component.tsx";
 import {Route, Routes} from "react-router-dom";
 
-const unAuthedPath = `/customer-select`;
-const customerSelectRoute: MockRoute = {
-    path: unAuthedPath,
-    component: <p>Chose a customer</p>,
-};
+const customerSelectPath = `/customer-select`;
 
-const mountInRouter = ({routes}: { routes: MockRoute[] }) => {
+const mountInRouter = ({routerInitialEntries}: { routerInitialEntries?: string[]}) => {
+    const unauthedRoutes = [customerSelectPath, '/noauth'];
     cy.mountWith(
-        <Routes>
-            <Route
-                path="/"
-                element={<AuthGuard redirectPath={unAuthedPath}><div data-testid="protected-content">Protected Content</div></AuthGuard>}
-            />
-            {routes?.map((route) => (
-                <Route path={route.path} element={route.component} />
-            ))}
-        </Routes>,
+        <AuthGuard redirectPath={customerSelectPath} unauthedRoutes={unauthedRoutes}>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                            <div data-testid="protected-content">Protected Content</div>
+                    }
+                />
+                <Route
+                    path="/noauth"
+                    element={
+                        <div data-testid="unprotected-content">Unprotected Content</div>
+                    }
+                />
+                <Route
+                    path={customerSelectPath}
+                    element={
+                        <p>Chose a customer</p>
+                    }
+                />
+            </Routes>
+        </AuthGuard>,
         [MountLayer.Router, MountLayer.ErrorBoundary],
-        {router: { initialEntries: ['/'] } }
+        {router: { initialEntries: routerInitialEntries ? routerInitialEntries : ['/'] } }
     );
 }
 
@@ -29,7 +39,7 @@ describe('AuthGuard', () => {
         it('within a router should be successful', () => {
             cy.setCookie('fawdSession', 'valid-session-token', {secure: true, httpOnly: false, sameSite: 'no_restriction'});
             cy.stub(window.console, 'error').as('consoleError')
-            mountInRouter({routes: [customerSelectRoute]});
+            mountInRouter({});
             cy.get('[data-testid="protected-content"]').should('exist').and('contain.text', 'Protected Content');
             cy.get('@consoleError').should('not.be.called');
         });
@@ -37,22 +47,27 @@ describe('AuthGuard', () => {
         it('outside of a router should be unsuccessful and throw an error', () => {
             cy.on('uncaught:exception', () => false)
             cy.stub(window.console, 'error').as('consoleError')
-            cy.mountWith(<AuthGuard redirectPath={unAuthedPath}><div data-testid="protected-content">Protected Content</div></AuthGuard>,
+            cy.mountWith(<AuthGuard redirectPath={customerSelectPath}><div data-testid="protected-content">Protected Content</div></AuthGuard>,
                 [MountLayer.ErrorBoundary]);
             cy.get('[data-testid="protected-content"]').should('not.exist');
             cy.get('@consoleError').should('be.calledWith', 'AuthGuard must be used within a Router context');
-            cy.get('h1').should('exist').and('contain.text', 'Something went wrong');
+            cy.get('h1').should('exist').and('contain.text', 'Something Went Wrong');
         });
     });
 
     it('should render its children correctly when it has a session set', () => {
         cy.setCookie('fawdSession', 'valid-session-token', {secure: true, httpOnly: false, sameSite: 'no_restriction'});
-        mountInRouter({routes: [customerSelectRoute]});
+        mountInRouter({});
         cy.get('[data-testid="protected-content"]').should('exist').and('contain.text', 'Protected Content');
     });
 
-    it('should redirect to the defined non authed path no session set', () => {
-        mountInRouter({routes: [customerSelectRoute]});
+    it('should render its children when no session set but the path is not protected', () => {
+        mountInRouter({routerInitialEntries: ['/noauth']});
+        cy.get('[data-testid="unprotected-content"]').should('exist').and('contain.text', 'Unprotected Content');
+    });
+
+    it('should redirect to the defined non authed path no session set and the path is protected', () => {
+        mountInRouter({});
         cy.get('p').contains('Chose a customer');
     });
 });
