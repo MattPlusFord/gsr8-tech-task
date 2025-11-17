@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { useNavigate, UNSAFE_NavigationContext } from "react-router-dom";
+import React, { useEffect } from "react";
+import {useNavigate, useInRouterContext} from "react-router-dom";
 
 type AuthGuardProps = {
     children: React.ReactNode;
@@ -7,9 +7,7 @@ type AuthGuardProps = {
 };
 
 const AuthGuard: React.FC<AuthGuardProps> = ({ children, redirectPath }) => {
-    const routerContext = useContext(UNSAFE_NavigationContext);
-
-    if (!routerContext) {
+    if (!useInRouterContext()) {
         console.error("AuthGuard must be used within a Router context");
         return null;
     }
