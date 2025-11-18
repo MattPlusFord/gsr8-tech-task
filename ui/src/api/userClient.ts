@@ -1,7 +1,19 @@
+import {getCookieValue} from "../utils/cookies.ts";
+import {BaseClient} from "./baseClient.ts";
+
 export class UserClient {
-    static loadUser = (userId: string) => {
-        return fetch(`${import.meta.env.VITE_API_BASE_URL}/users/${userId}`, {})
+    static loadUser = () => {
+        const sessionValue = getCookieValue('fawdSession');
+        if (!sessionValue) {
+            console.error("No session cookie found");
+            return Promise.resolve(null);
+        }
+        return BaseClient.authenticatedRequest(`/users/details`,
+            {
+                headers: {'x-user-id': sessionValue}
+            })
             .then(res => {
+                if (!res) return null;
                 if (res.ok) {
                     return res.json()
                 } else {
@@ -16,4 +28,4 @@ export class UserClient {
     }
 }
 
-export default UserClient
+export default UserClient;
