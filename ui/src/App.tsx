@@ -1,4 +1,3 @@
-import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import ErrorBoundary from "./components/errors/ErrorBoundary.tsx";
 import AuthGuard from "./components/auth/AuthGuard.tsx";
@@ -14,10 +13,10 @@ export const App = () => {
                     <AuthGuard redirectPath={'/customer-select'} unauthedRoutes={AppRoutes.unsecureRoutes.map(route => route.path)}>
                         <Routes>
                             {AppRoutes.unsecureRoutes?.map((route) => (
-                                <Route path={route.path} element={route.component} />
+                                <Route key={route.path} path={route.path} element={route.component} />
                             ))}
                             {AppRoutes.secureRoutes?.map((route) => (
-                                <Route path={route.path} element={route.component} />
+                                <Route key={route.path} path={route.path} element={route.component} />
                             ))}
                         </Routes>
                     </AuthGuard>

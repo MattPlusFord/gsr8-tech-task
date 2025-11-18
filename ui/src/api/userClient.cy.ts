@@ -23,7 +23,7 @@ describe('UserClient', () => {
             });
 
             describe('with invalid response data', () => {
-                const invalidUserData = 'transactionId';
+                const invalidUserData = 'j.doe@ford.com';
 
                 beforeEach(() => {
                     cy.setCookie('fawdSession', 'valid-session-token', {secure: true, httpOnly: false, sameSite: 'no_restriction'});
