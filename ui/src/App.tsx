@@ -1,8 +1,8 @@
-import './components/layout/layout.css';
 import './App.css';
-import {BrowserRouter} from "react-router-dom";
-import AuthGuard from "./components/auth/AuthGuard.tsx";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import ErrorBoundary from "./components/errors/ErrorBoundary.tsx";
+import AuthGuard from "./components/auth/AuthGuard.tsx";
+import {AppRoutes} from "./components/config/AppRoutes.tsx";
 
 export const App = () => {
     const errorSupportUrl = import.meta.env.VITE_ERROR_SUPPORT_DOMAIN;
@@ -11,8 +11,15 @@ export const App = () => {
         <>
             <ErrorBoundary supportUrl={errorSupportUrl}>
                 <BrowserRouter>
-                    <AuthGuard redirectPath={'/customer-select'}>
-                        <></>
+                    <AuthGuard redirectPath={'/customer-select'} unauthedRoutes={AppRoutes.unsecureRoutes.map(route => route.path)}>
+                        <Routes>
+                            {AppRoutes.unsecureRoutes?.map((route) => (
+                                <Route path={route.path} element={route.component} />
+                            ))}
+                            {AppRoutes.secureRoutes?.map((route) => (
+                                <Route path={route.path} element={route.component} />
+                            ))}
+                        </Routes>
                     </AuthGuard>
                 </BrowserRouter>
             </ErrorBoundary>

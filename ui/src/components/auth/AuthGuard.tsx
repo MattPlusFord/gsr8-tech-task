@@ -1,18 +1,19 @@
-import React, { useContext, useEffect } from "react";
-import { useNavigate, UNSAFE_NavigationContext } from "react-router-dom";
+import React, {useEffect} from "react";
+import {useNavigate, useInRouterContext, useLocation} from "react-router-dom";
 
 type AuthGuardProps = {
-    children: React.ReactNode;
-    redirectPath: string;
+    children: React.ReactNode,
+    redirectPath: string,
+    unauthedRoutes?: string[]
 };
 
-const AuthGuard: React.FC<AuthGuardProps> = ({ children, redirectPath }) => {
-    const routerContext = useContext(UNSAFE_NavigationContext);
-
-    if (!routerContext) {
+const AuthGuard: React.FC<AuthGuardProps> = ({children, redirectPath, unauthedRoutes}) => {
+    if (!useInRouterContext()) {
         console.error("AuthGuard must be used within a Router context");
-        return null;
+        throw new Error("AuthGuard must be used within a Router context");
     }
+
+    let currentPath = useLocation();
 
     const hasSession = document.cookie
         .split("; ")
@@ -21,14 +22,11 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children, redirectPath }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!hasSession) {
-            navigate(redirectPath, { replace: true });
+        if (!hasSession && (!unauthedRoutes?.includes(currentPath.pathname))) {
+            navigate(redirectPath, {replace: true});
         }
-    }, [hasSession, navigate, redirectPath]);
+    }, [hasSession, navigate, redirectPath, currentPath]);
 
-    if (!hasSession) {
-        return null;
-    }
 
     return <>{children}</>;
 };
