@@ -9,13 +9,13 @@ type RouteConfig = {
 export class AppRoutes {
     static secureRoutes: RouteConfig[] = [
         {
-            path: '/',
-            component: <></>,
+            path: '*',
+            component: <BasePage><></></BasePage>,
         }
     ];
     static unsecureRoutes: RouteConfig[] = [{
             path: '/customer-select',
-            component: <BasePage><>Test</></BasePage>,
+            component: <BasePage><></></BasePage>,
         }
     ];
 }

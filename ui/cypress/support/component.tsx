@@ -14,11 +14,6 @@ declare global {
   }
 }
 
-export type MockRoute = {
-    path: string;
-    component: ReactNode;
-};
-
 type MountOptions = {
   router?: MemoryRouterProps;
 };

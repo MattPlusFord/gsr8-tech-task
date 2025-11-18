@@ -13,10 +13,10 @@ export const App = () => {
                 <BrowserRouter>
                     <AuthGuard redirectPath={'/customer-select'} unauthedRoutes={AppRoutes.unsecureRoutes.map(route => route.path)}>
                         <Routes>
-                            {AppRoutes.secureRoutes?.map((route) => (
+                            {AppRoutes.unsecureRoutes?.map((route) => (
                                 <Route path={route.path} element={route.component} />
                             ))}
-                            {AppRoutes.unsecureRoutes?.map((route) => (
+                            {AppRoutes.secureRoutes?.map((route) => (
                                 <Route path={route.path} element={route.component} />
                             ))}
                         </Routes>
