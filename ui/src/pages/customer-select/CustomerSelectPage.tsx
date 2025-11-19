@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SessionClient } from "../../api/auth/authClient";
 import BasePage from "../../components/layout/basePage/BasePage.tsx";
+import './customer-select.css';
 
 
 export const CustomerSelectPage: React.FC = () => {
@@ -22,19 +23,22 @@ export const CustomerSelectPage: React.FC = () => {
 
     return (
         <BasePage>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Enter customer email address
+            <div className="customer-select-wrapper">
+                <form className='customer-select' onSubmit={handleSubmit}>
+                    <label htmlFor={'email'}>
+                        Enter customer email address
+                    </label>
                     <input
+                        id='email'
                         type="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         required
                     />
-                </label>
-                <button type="submit">Continue</button>
-                {error && <div>{error}</div>}
-            </form>
+                    <button type="submit">Continue</button>
+                    {error && <div className={'error-label'}>{error}</div>}
+                </form>
+            </div>
         </BasePage>
     );
 };
