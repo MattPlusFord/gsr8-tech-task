@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SessionClient } from "../../api/auth/authClient";
+import BasePage from "../../components/layout/basePage/BasePage.tsx";
 
 
 export const CustomerSelectPage: React.FC = () => {
@@ -20,19 +21,21 @@ export const CustomerSelectPage: React.FC = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Enter customer email address
-                <input
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required
-                />
-            </label>
-            <button type="submit">Continue</button>
-            {error && <div>{error}</div>}
-        </form>
+        <BasePage>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Enter customer email address
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        required
+                    />
+                </label>
+                <button type="submit">Continue</button>
+                {error && <div>{error}</div>}
+            </form>
+        </BasePage>
     );
 };
 
