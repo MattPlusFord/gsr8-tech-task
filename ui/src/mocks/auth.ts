@@ -1,12 +1,5 @@
 import {rest} from "msw";
-
-const mockUsers = {
-    "1": {id: "1", email: "john.doe@ford.com", name: "John Doe"},
-    "2": {id: "2", email: "jane.doe@ford.com", name: "Jane Doe"},
-    "3": {id: "3", email: "stan.smith@ford.com", name: "Stan Smith"},
-    "4": {id: "4", email: "john.dorian@ford.com", name: "John Dorian"},
-    "5": {id: "5", email: "terry.jeffords@ford.com", name: "Terry Jeffords"},
-}
+import {mockUsers} from "./users.ts";
 
 export const createSession = rest.post(
     `**/session`,
