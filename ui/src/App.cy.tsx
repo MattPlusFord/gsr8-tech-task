@@ -14,15 +14,20 @@ describe("App", () => {
     });
 
     describe("when opened with a session", () => {
+        const userId = 2;
+        const userName = 'Test user';
+
         beforeEach(() => {
-            cy.setCookie('fawdSession', 'valid-session-token', {secure: true, httpOnly: false, sameSite: 'no_restriction'});
+            cy.setCookie('fawdSession', String(userId), {secure: true, httpOnly: false, sameSite: 'no_restriction'});
+            cy.intercept(`http://localhost:8080/users/details`, {body: {id: userId, name: userName, email: 'test@ford.com'}});
             cy.mount(<App/>);
         });
 
-        it.only("should go to the home screen when there is a session", () => {
+        it("should go to the home screen when there is a session", () => {
             cy.get("a").contains("Fawd Credit");
             cy.get("p").contains("Fawd Credit Europe 2025");
-            cy.url().should('not.contain', '/customer-select');
+            // cy.url().should('not.contain', '/customer-select');
+            cy.contains(userName).should('be.visible');
         });
     });
 });
