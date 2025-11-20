@@ -24,36 +24,38 @@ export const LandingPage = () => {
         }
     }, [user]);
 
-    if (user) {
-        return (
-            <BasePage>
-                <div className="home">
-                    <HeroCard userName={user?.name ? user.name : ""} />
-                    {/*<AccountList />*/}
-                </div>
-            </BasePage>
-        );
-    } else if (userLoadError) {
-        return (
-            <BasePage>
-                <div className="home">
-                    <Card>
-                        <h1>Sorry, we've been unable to find your user account</h1>
-                    </Card>
-                </div>
-            </BasePage>
-        );
-    } else {
-        return (
-            <BasePage>
-                <div className="home">
-                    <Card>
-                        <h1>Loading</h1>
-                    </Card>
-                </div>
-            </BasePage>
-        );
+    const renderPageBody = () => {
+        if (user) {
+            return (
+                    <div className="home">
+                        <HeroCard userName={user?.name ? user.name : ""} />
+                        {/*<AccountList />*/}
+                    </div>
+            );
+        } else if (userLoadError) {
+            return (
+                    <div className="home">
+                        <Card>
+                            <h1>Sorry, we've been unable to find your user account</h1>
+                        </Card>
+                    </div>
+            );
+        } else {
+            return (
+                    <div className="home">
+                        <Card>
+                            <h1>Loading</h1>
+                        </Card>
+                    </div>
+            );
+        }
     }
+
+    return (
+      <BasePage>
+          {renderPageBody()}
+      </BasePage>
+    );
 }
 
 export default LandingPage;
