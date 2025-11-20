@@ -14,7 +14,7 @@ export const CustomerSelectPage: React.FC = () => {
         e.preventDefault();
         setError(null);
         try {
-            const result = await SessionClient.startSession();
+            const result = await SessionClient.startSession(email);
             result ? navigate("/") : setError("Invalid email address");
         } catch {
             setError("Invalid email address");
