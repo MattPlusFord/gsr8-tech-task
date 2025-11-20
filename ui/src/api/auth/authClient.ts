@@ -1,9 +1,9 @@
 import { BaseClient } from '../baseClient';
 
 export class SessionClient {
-    static startSession = (): Promise<boolean | null> => {
+    static startSession = (email: string): Promise<boolean | null> => {
         return BaseClient.unauthenticatedRequest('/session',
-            { method: 'POST', credentials: 'include' })
+            { method: 'POST', body: JSON.stringify({ email }) },)
             .then(res => {
                 if (res.ok) {
                     return true;

@@ -1,5 +1,6 @@
 import {ReactNode} from "react";
 import BasePage from "../layout/basePage/BasePage.tsx";
+import CustomerSelectPage from "../../pages/customer-select/CustomerSelectPage.tsx";
 
 type RouteConfig = {
     path: string;
@@ -15,7 +16,7 @@ export class AppRoutes {
     ];
     static unsecureRoutes: RouteConfig[] = [{
             path: '/customer-select',
-            component: <BasePage><></></BasePage>,
+            component: <CustomerSelectPage />,
         }
     ];
 }

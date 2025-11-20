@@ -37,9 +37,10 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #00095b;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: #FFFFFF;
 }
 button:hover {
   border-color: #646cff;
@@ -60,4 +61,14 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.error-label {
+    width: 100%;
+    background-color: #d44242;
+    color: #690707;
+    border-radius: 5px;
+    border: 2px solid #690707;
+    padding: 0.3em 0.6em;
+    text-align: center;
 }
