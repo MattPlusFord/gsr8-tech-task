@@ -6,7 +6,6 @@ export class BaseClient {
         if (!sessionValue) {
             return null;
         }
-        console.log(sessionValue);
         const headers = {
             ...options?.headers,
             'x-user-id': sessionValue,
