@@ -8,12 +8,12 @@ describe('AccountClient', () => {
                 const validAccountData = [
                     {
                         'id': "1",
-                        'user': "1",
+                        'user': {id: "1", email: "john.doe@ford.com", name: "John Doe"},
                         'balance': 1234.56,
                         'interestRate': 5.3
                     }, {
                         'id': "2",
-                        'user': "1",
+                        'user': {id: "1", email: "john.doe@ford.com", name: "John Doe"},
                         'balance': 2345.67,
                         'interestRate': 4.8
                     }
