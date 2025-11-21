@@ -15,13 +15,14 @@ export const mockAccountsOverview = {
 }
 
 export const loadAccountListForUser = rest.get(
-    `**/users/details`,
+    `**/users/agreements`,
     (req, data, ctx) => {
         const reqHeaders= req.headers;
         const sessionValue: string | null = (reqHeaders.get('x-user-id'));
         if (!sessionValue) {
             return data(ctx.delay(1000), ctx.status(401), ctx.json({error: "Unauthorized"}));
         }
-        return data(ctx.delay(1000), ctx.status(200), ctx.json(mockAccountsOverview[sessionValue as keyof typeof mockAccountsOverview]));
+        const userAccounts = Object.values(mockAccountsOverview).filter(account => account.user.id === sessionValue);
+        return data(ctx.delay(1000), ctx.status(200), ctx.json(userAccounts));
     }
 );
