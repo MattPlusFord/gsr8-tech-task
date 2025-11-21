@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import UserClient from "../../api/user/userClient.ts";
 import Card from "../../components/cards/Card.tsx";
 import {User} from "../../types/users.ts";
-// import {AccountList} from "../../components/accountList/AccountList.tsx";
+import {AccountList} from "../../components/accountList/AccountList.tsx";
 import BasePage from "../../components/layout/basePage/BasePage.tsx";
 
 
@@ -29,7 +29,7 @@ export const LandingPage = () => {
             return (
                     <div className="home">
                         <HeroCard userName={user?.name ? user.name : ""} />
-                        {/*<AccountList />*/}
+                        <AccountList />
                     </div>
             );
         } else if (userLoadError) {
