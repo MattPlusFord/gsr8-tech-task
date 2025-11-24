@@ -2,7 +2,7 @@ import {AccountClient} from "./accountClient.ts";
 
 describe('AccountClient', () => {
     describe('loadAccountsForUser', () => {
-        const accountListUrl = `${import.meta.env.VITE_API_BASE_URL}/users/accounts`;
+        const accountListUrl = `${import.meta.env.VITE_API_BASE_URL}/accounts`;
         describe('successful response', () => {
             describe('with valid data', () => {
                 const validAccountData = [

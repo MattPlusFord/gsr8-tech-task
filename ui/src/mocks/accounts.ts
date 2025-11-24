@@ -15,7 +15,7 @@ export const mockAccountsOverview = {
 }
 
 export const loadAccountListForUser = rest.get(
-    `**/users/agreements`,
+    `**/agreements`,
     (req, data, ctx) => {
         const reqHeaders= req.headers;
         const sessionValue: string | null = (reqHeaders.get('x-user-id'));

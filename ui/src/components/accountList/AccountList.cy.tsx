@@ -2,7 +2,7 @@ import AccountList from "./AccountList.tsx";
 
 describe('AccountList', () => {
     describe('renders', () => {
-        const accountListUrl = `**/users/agreements`;
+        const accountListUrl = `**/agreements`;
         const validAccountData = [
             {
                 'id': "1",

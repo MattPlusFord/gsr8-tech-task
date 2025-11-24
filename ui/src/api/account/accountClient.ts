@@ -3,7 +3,7 @@ import {AccountOverview} from "../../types/accounts.ts";
 
 export class AccountClient {
     static loadAccountListForUser = (): Promise<AccountOverview[] | null> => {
-        return BaseClient.authenticatedRequest(`/users/agreements`)
+        return BaseClient.authenticatedRequest(`/agreements`)
             .then(res => {
                 if (!res) return null;
                 if (res.ok) {
