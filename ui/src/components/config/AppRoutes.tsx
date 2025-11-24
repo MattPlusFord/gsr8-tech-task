@@ -1,6 +1,7 @@
 import {ReactNode} from "react";
 import CustomerSelectPage from "../../pages/customer-select/CustomerSelectPage.tsx";
 import LandingPage from "../../pages/landingPage/LandingPage.tsx";
+import AccountDetails from "../../pages/accountDetails/AccountDetails.tsx";
 
 type RouteConfig = {
     path: string;
@@ -9,6 +10,10 @@ type RouteConfig = {
 
 export class AppRoutes {
     static secureRoutes: RouteConfig[] = [
+        {
+            path: '/agreement/:id',
+            component: <AccountDetails/>,
+        },
         {
             path: '*',
             component: <LandingPage/>,

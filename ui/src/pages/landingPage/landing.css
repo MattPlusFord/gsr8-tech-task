@@ -1,5 +1,6 @@
 .home {
     display: flex;
+    flex-direction: column;
     gap: 3rem;
     align-items: flex-start;
     max-width: 1200px;
