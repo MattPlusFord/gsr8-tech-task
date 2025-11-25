@@ -3,13 +3,13 @@ import carPlaceholder from '../../assets/images/car_placeholder.jpg';
 import {useParams} from "react-router-dom";
 import BasePage from "../../components/layout/basePage/BasePage.tsx";
 import AccountClient from "../../api/account/accountClient.ts";
-import {AccountOverview} from "../../types/accounts.ts";
+import {AccountDetails} from "../../types/accounts.ts";
 import Card from "../../components/cards/Card.tsx";
 import './agreement.css';
 
-const AccountDetails: React.FC = () => {
+const AgreementDetailsPage: React.FC = () => {
     const {id} = useParams();
-    const [accountDetails, setAccountDetails] = useState<AccountOverview>();
+    const [accountDetails, setAccountDetails] = useState<AccountDetails>();
     const [accountLoadError, setAccountLoadError] = useState<boolean>(false);
 
     useEffect(() => {
@@ -31,6 +31,11 @@ const AccountDetails: React.FC = () => {
             return (
                 <div id={`user-agreement-${accountDetails?.id}`} className='agreement'>
                     <div className="agreement__details">
+                        <h1 className="agreement__title">{accountDetails?.registration}</h1>
+                        <p className="agreement__detail-row"><span className='agreement__detail-heading'>Make:</span> <span>{accountDetails?.make}</span></p>
+                        <p className="agreement__detail-row"><span className='agreement__detail-heading'>Model:</span> <span>{accountDetails?.model}</span></p>
+                        <p className="agreement__detail-row"><span className='agreement__detail-heading'>Variant:</span> <span>{accountDetails?.variant}</span></p>
+                        <p className="agreement__detail-row"><span className='agreement__detail-heading'>Year:</span> <span>{accountDetails?.year}</span></p>
                         <p className="agreement__detail-row"><span className='agreement__detail-heading'>Account number:</span> <span>{accountDetails?.id}</span></p>
                         <p className="agreement__detail-row"><span className='agreement__detail-heading'>Balance:</span> <span>£{accountDetails?.balance}</span></p>
                         <p className="agreement__detail-row"><span className='agreement__detail-heading'>Interest rate:</span> <span>{accountDetails?.interestRate}%</span></p>
@@ -66,4 +71,4 @@ const AccountDetails: React.FC = () => {
     );
 };
 
-export default AccountDetails;
+export default AgreementDetailsPage;

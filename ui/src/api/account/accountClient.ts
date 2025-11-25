@@ -1,5 +1,5 @@
 import {BaseClient} from "../baseClient.ts";
-import {AccountOverview} from "../../types/accounts.ts";
+import {AccountDetails, AccountOverview} from "../../types/accounts.ts";
 
 export class AccountClient {
     static loadAccountListForUser = (): Promise<AccountOverview[] | null> => {
@@ -17,7 +17,7 @@ export class AccountClient {
             });
     }
 
-    static loadAccountDetails = (agreementId: string): Promise<AccountOverview | null> => {
+    static loadAccountDetails = (agreementId: string): Promise<AccountDetails | null> => {
         return BaseClient.authenticatedRequest(`/agreements/${agreementId}`)
             .then(res => {
                 if (!res) return null;

@@ -1,4 +1,4 @@
-import AccountDetails from "./AccountDetails.tsx";
+import AgreementDetailsPage from "./AgreementDetailsPage.tsx";
 import {MountLayer} from "../../../cypress/support/component.tsx";
 
 const agreementId = '1';

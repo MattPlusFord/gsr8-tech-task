@@ -1,32 +1,32 @@
 import {useEffect, useState} from "react";
 import {AccountOverview} from "../../types/accounts.ts";
 import AccountClient from "../../api/account/accountClient.ts";
-import FinanceCard from "../cards/AgreementCard.tsx";
+import AgreementCard from "../cards/AgreementCard.tsx";
 import Card from "../cards/Card.tsx";
 import './accountList.css';
 
 
 export const AccountList = () => {
-    const [accounts, setAccounts] = useState<undefined|AccountOverview[]>();
+    const [agreements, setAgreements] = useState<undefined|AccountOverview[]>();
     const [accountLoadError, setAccountLoadError] = useState(false);
 
     useEffect(() => {
-        if (!accounts && !accountLoadError) {
+        if (!agreements && !accountLoadError) {
             AccountClient.loadAccountListForUser().then(accountData => {
                 if (accountData) {
-                    setAccounts(accountData);
+                    setAgreements(accountData);
                 } else {
                     setAccountLoadError(true);
                 }
             });
         }
-    }, [accounts, accountLoadError]);
+    }, [agreements, accountLoadError]);
 
-    if (accounts) {
+    if (agreements) {
         return (
             <div className="account-list">
-                {accounts.map(account => {
-                    return <FinanceCard key={account.id} id={account.id} balance={account.balance} interestRate={account.interestRate} />
+                {agreements.map(agreement => {
+                    return <AgreementCard key={agreement.id} agreement={agreement} />
                 })}
             </div>
         );
