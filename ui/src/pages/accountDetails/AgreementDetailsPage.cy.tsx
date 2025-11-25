@@ -5,7 +5,7 @@ const agreementId = '1';
 const balance = 15000;
 const interestRate = 3.5;
 
-describe('AccountDetails page', () => {
+describe('Agreement Details Page', () => {
     const validAccountDetails = {
         'id': agreementId,
         'user': {id: "1", email: "john.doe@ford.com", name: "John Doe"},
@@ -28,7 +28,7 @@ describe('AccountDetails page', () => {
                    routes: [
                        {
                            path: `/agreement/:id`,
-                           component: <AccountDetails/>
+                           component: <AgreementDetailsPage/>
                        }
                    ]
                }
@@ -52,7 +52,7 @@ describe('AccountDetails page', () => {
                     routes: [
                         {
                             path: `/agreement/:id`,
-                            component: <AccountDetails/>
+                            component: <AgreementDetailsPage/>
                         }
                     ]
                 }
