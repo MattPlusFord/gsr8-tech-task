@@ -26,3 +26,19 @@ export const loadAccountListForUser = rest.get(
         return data(ctx.delay(1000), ctx.status(200), ctx.json(userAccounts));
     }
 );
+
+export const loadAccountDetails = rest.get(
+    `**/agreements/*`,
+    (req, data, ctx) => {
+        const reqHeaders= req.headers;
+        const sessionValue: string | null = (reqHeaders.get('x-user-id'));
+        if (!sessionValue) {
+            return data(ctx.delay(1000), ctx.status(401), ctx.json({error: "Unauthorized"}));
+        }
+        const account = mockAccountsOverview[req.params['1'] as keyof typeof mockAccountsOverview];
+        if (!account || account.user.id !== sessionValue) {
+            return data(ctx.delay(1000), ctx.status(404), ctx.json({error: "Account not found"}));
+        }
+        return data(ctx.delay(1000), ctx.status(200), ctx.json(account));
+    }
+);

@@ -16,6 +16,21 @@ export class AccountClient {
                 return null;
             });
     }
+
+    static loadAccountDetails = (agreementId: string): Promise<AccountOverview | null> => {
+        return BaseClient.authenticatedRequest(`/agreements/${agreementId}`)
+            .then(res => {
+                if (!res) return null;
+                if (res.ok) {
+                    return res.json()
+                }
+                console.error(res.body);
+                return null;
+            }).catch(res => {
+                console.error(res);
+                return null;
+            });
+    }
 }
 
 export default AccountClient;

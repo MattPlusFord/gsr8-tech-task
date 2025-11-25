@@ -3,7 +3,7 @@ import CustomerSelectPage from "../../pages/customer-select/CustomerSelectPage.t
 import LandingPage from "../../pages/landingPage/LandingPage.tsx";
 import AccountDetails from "../../pages/accountDetails/AccountDetails.tsx";
 
-type RouteConfig = {
+export type RouteConfig = {
     path: string;
     component: ReactNode;
 }
