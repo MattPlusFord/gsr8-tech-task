@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import carPlaceholder from '../../assets/images/car_placeholder.jpg';
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import BasePage from "../../components/layout/basePage/BasePage.tsx";
 import AccountClient from "../../api/account/accountClient.ts";
 import {AccountDetails} from "../../types/accounts.ts";
 import Card from "../../components/cards/Card.tsx";
 import './agreement.css';
+import Button from "../../components/buttons/Button.tsx";
 
 const AgreementDetailsPage: React.FC = () => {
     const {id} = useParams();
@@ -26,10 +27,14 @@ const AgreementDetailsPage: React.FC = () => {
         }
     }, [id]);
 
+    const handleChangePaymentDate = () => {
+        console.log('handleChangePaymentDate');
+    }
+
     const renderPageBody = () => {
         if (accountDetails) {
             return (
-                <div id={`user-agreement-${accountDetails?.id}`} className='agreement'>
+                <div className="agreement__body">
                     <div className="agreement__details">
                         <h1 className="agreement__title">{accountDetails?.registration}</h1>
                         <p className="agreement__detail-row"><span className='agreement__detail-heading'>Make:</span> <span>{accountDetails?.make}</span></p>
@@ -39,34 +44,38 @@ const AgreementDetailsPage: React.FC = () => {
                         <p className="agreement__detail-row"><span className='agreement__detail-heading'>Account number:</span> <span>{accountDetails?.id}</span></p>
                         <p className="agreement__detail-row"><span className='agreement__detail-heading'>Balance:</span> <span>£{accountDetails?.balance}</span></p>
                         <p className="agreement__detail-row"><span className='agreement__detail-heading'>Interest rate:</span> <span>{accountDetails?.interestRate}%</span></p>
+                        <p className="agreement__detail-row"><span className='agreement__detail-heading'>Payment date:</span> <span>{accountDetails?.paymentDate} of each month</span></p>
+                        <p className="agreement__detail-row"><span className='agreement__detail-heading'>Monthly payment:</span> <span>£{accountDetails?.monthlyPayment}</span></p>
+                        <p className="agreement__detail-row"><span className='agreement__detail-heading'>Contract Length:</span> <span>{accountDetails?.contractLength} years</span></p>
                     </div>
                     <div className="agreement__image">
                         <img src={carPlaceholder} alt="Image of agreement vehicle" />
+
+                        <Button onClick={handleChangePaymentDate} label='Change Payment Date' />
                     </div>
                 </div>
             )
         } else if (accountLoadError) {
             return (
-                <div className="account-list">
-                    <Card>
-                        <h1>Sorry, we've been unable to find your finance accounts</h1>
-                    </Card>
-                </div>
+                <Card>
+                    <h1>Sorry, we've been unable to find your finance accounts</h1>
+                </Card>
             );
         } else {
             return (
-                <div className="account-list">
-                    <Card>
-                        <h1>Loading</h1>
-                    </Card>
-                </div>
+                <Card>
+                    <h1>Loading</h1>
+                </Card>
             );
         }
     };
 
     return (
         <BasePage>
-            {renderPageBody()}
+            <div id={`user-agreement-${id}`} className='agreement'>
+                <Link to={'/'} className='agreement__back'>&larr; Back to agreement list</Link>
+                {renderPageBody()}
+            </div>
         </BasePage>
     );
 };

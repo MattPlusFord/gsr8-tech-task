@@ -13,4 +13,7 @@ export type AccountOverview = {
 export type AccountDetails = AccountOverview & {
     balance: number;
     interestRate: number;
+    paymentDate: string;
+    contractLength: number;
+    monthlyPayment: number;
 }
