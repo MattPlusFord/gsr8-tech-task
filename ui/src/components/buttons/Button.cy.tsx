@@ -18,4 +18,10 @@ describe('Button', () => {
         cy.mount(<Button label="Click Me" onClick={() => {}} disabled={true} />);
         cy.get('button').should('be.disabled');
     });
+
+    it('should have the correct className when provided', () => {
+        const className = 'custom-button';
+        cy.mount(<Button label="Click Me" onClick={() => {}} className={className} />);
+        cy.get('button').should('have.class', className);
+    })
 });
