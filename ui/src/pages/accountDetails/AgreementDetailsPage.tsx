@@ -8,6 +8,7 @@ import Card from "../../components/cards/Card.tsx";
 import './agreement.css';
 import Button from "../../components/buttons/Button.tsx";
 import Modal from "../../components/modal/Modal.tsx";
+import ChangeDueDateForm from "../../components/forms/changeDueDate/ChangeDueDateForm.tsx";
 
 const AgreementDetailsPage: React.FC = () => {
     const {id} = useParams();
@@ -29,7 +30,7 @@ const AgreementDetailsPage: React.FC = () => {
         }
     }, [id]);
 
-    const handleChangePaymentDate = () => {
+    const toggleChangePaymentDate = () => {
         setShowChangePaymentDateModal(true);
     };
 
@@ -37,34 +38,59 @@ const AgreementDetailsPage: React.FC = () => {
         setShowChangePaymentDateModal(false);
     };
 
+    const storePaymentDateChange = (newDate: number) => {
+        if (accountDetails) {
+            setAccountDetails({
+                ...accountDetails,
+                paymentDate: newDate.toString(),
+            });
+        }
+    };
+
+    const setDateSuffix = (date: string): string => {
+        switch (parseInt(date) % 10) {
+            case 1:
+                return `${date}st`;
+            case 2:
+                return `${date}nd`;
+            case 3:
+                return `${date}rd`;
+            default:
+                return `${date}th`;
+        }
+    }
+
     const renderPageBody = () => {
         if (accountDetails) {
             return (
                 <>
                     <Modal
                         isOpen={showChangePaymentDateModal}
-                        onClose={handleCloseModal}
-                        closeLabel="Close"
                     >
-                        Select new payment date
+                        <ChangeDueDateForm
+                            currentDate={parseInt(accountDetails.paymentDate)}
+                            closeCallback={handleCloseModal}
+                            agreementId={accountDetails.id}
+                            completionCallback={storePaymentDateChange}
+                        />
                     </Modal>
                     <div className="agreement__body">
                         <div className="agreement__details">
                             <h1 className="agreement__title">{accountDetails?.registration}</h1>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Make:</span> <span>{accountDetails?.make}</span></p>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Model:</span> <span>{accountDetails?.model}</span></p>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Variant:</span> <span>{accountDetails?.variant}</span></p>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Year:</span> <span>{accountDetails?.year}</span></p>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Account number:</span> <span>{accountDetails?.id}</span></p>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Balance:</span> <span>£{accountDetails?.balance}</span></p>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Interest rate:</span> <span>{accountDetails?.interestRate}%</span></p>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Payment date:</span> <span>{accountDetails?.paymentDate} of each month</span></p>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Monthly payment:</span> <span>£{accountDetails?.monthlyPayment}</span></p>
-                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Contract Length:</span> <span>{accountDetails?.contractLength} years</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Make:</span> <span>{accountDetails.make}</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Model:</span> <span>{accountDetails.model}</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Variant:</span> <span>{accountDetails.variant}</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Year:</span> <span>{accountDetails.year}</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Account number:</span> <span>{accountDetails.id}</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Balance:</span> <span>£{accountDetails.balance}</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Interest rate:</span> <span>{accountDetails.interestRate}%</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Payment date:</span> <span>{setDateSuffix(accountDetails.paymentDate)} of each month</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Monthly payment:</span> <span>£{accountDetails.monthlyPayment}</span></p>
+                            <p className="agreement__detail-row"><span className='agreement__detail-heading'>Contract Length:</span> <span>{accountDetails.contractLength} years</span></p>
                         </div>
                         <div className="agreement__image">
                             <img src={carPlaceholder} alt="Image of agreement vehicle" />
-                            <Button onClick={handleChangePaymentDate} label='Change Payment Date' />
+                            <Button onClick={toggleChangePaymentDate} label='Change Payment Date' />
                         </div>
                     </div>
                 </>

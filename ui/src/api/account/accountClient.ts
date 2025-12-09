@@ -31,6 +31,24 @@ export class AccountClient {
                 return null;
             });
     }
+
+    static updatePaymentDate = (agreementId: string, newPaymentDate: number): Promise<boolean> => {
+        return BaseClient.authenticatedRequest(`/agreements/${agreementId}/payment-date`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ newPaymentDate })
+        }).then(res => {
+            if (!res) return false;
+            if (res.ok) return true;
+            console.error(res.body);
+            return false;
+        }).catch(res => {
+            console.error(res);
+            return false;
+        });
+    }
 }
 
 export default AccountClient;
