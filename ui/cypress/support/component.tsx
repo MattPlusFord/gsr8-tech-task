@@ -1,5 +1,5 @@
 import './commands'
-
+import "@cypress/code-coverage/support";
 import { mount } from 'cypress/react18'
 import {ReactNode} from "react";
 import {MemoryRouter, MemoryRouterProps, Route, Routes} from "react-router-dom";
