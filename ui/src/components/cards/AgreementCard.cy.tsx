@@ -3,13 +3,26 @@ import {MountLayer} from "../../../cypress/support/component.tsx";
 import {Route, Routes} from "react-router-dom";
 
 const agreementId = '1';
-const balance = 15000;
-const interestRate = 3.5;
+const registration = 'ABC123';
+const make = 'Ford';
+const model = 'Focus';
+const variant = 'Zetec';
+const year = 2020;
+
+const agreement = {
+    id: agreementId,
+    user: {id: "2", email: "jane.doe@ford.com", name: "Jane Doe"},
+    registration: registration,
+    make: make,
+    model: model,
+    variant: variant,
+    year: year
+}
 
 const mountAgreementCard = () => {
     cy.mountWith(
         <Routes>
-            <Route path={`/`} element={<AgreementCard id={agreementId} balance={balance} interestRate={interestRate} />}/>
+            <Route path={`/`} element={<AgreementCard agreement={agreement} />}/>
             <Route path={`/agreement/:id`} element={<p>Agreement Details</p>}/>
         </Routes>,
         [MountLayer.Router],
@@ -28,16 +41,24 @@ describe('AgreementCard', () => {
             cy.get(`#user-agreement-${agreementId} img`).should('have.attr', 'alt', 'Image of agreement vehicle');
         });
 
-        it('should show the agreement id', () => {
-            cy.contains(`Account number: ${agreementId}`).should('be.visible');
+        it('should show the registration', () => {
+            cy.contains(registration).should('be.visible');
         });
 
-        it('should show the balance', () => {
-            cy.contains(`${balance}`).should('be.visible');
+        it('should show the make', () => {
+            cy.contains(make).should('be.visible');
         });
 
-        it('should show the interest rate', () => {
-            cy.contains(`${interestRate}`).should('be.visible');
+        it('should show the model', () => {
+            cy.contains(model).should('be.visible');
+        });
+
+        it('should show the variant', () => {
+            cy.contains(variant).should('be.visible');
+        });
+
+        it('should show the year', () => {
+            cy.contains(year).should('be.visible');
         });
     });
 

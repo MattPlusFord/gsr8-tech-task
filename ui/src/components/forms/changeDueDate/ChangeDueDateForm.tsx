@@ -11,11 +11,11 @@ type ChangeDueDateFormProps = {
 };
 
 const ChangeDueDateForm: React.FC<ChangeDueDateFormProps> = ({agreementId, currentDate, closeCallback, completionCallback}) => {
-  const [dueDate, setDueDate] = useState<number>(currentDate);
+  const [dueDate, setDueDate] = useState<any>(currentDate);
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDueDate(parseInt(e.target.value));
+    setDueDate(e);
   };
 
   const handlePaymentDateSave = () => {

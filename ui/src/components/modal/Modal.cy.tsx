@@ -2,13 +2,12 @@ import Modal from "./Modal.tsx";
 
 describe("Modal", () => {
     const modalChildContent = 'Modal Content';
-    const modalCloseLabel = 'Cancel';
 
     describe('render', () => {
         describe('when isOpen is false', () => {
             beforeEach(() => {
                 cy.mount(
-                    <Modal isOpen={false} onClose={() => {}} closeLabel={modalCloseLabel}>
+                    <Modal isOpen={false}>
                         <div>{modalChildContent}</div>
                     </Modal>
                 );
@@ -22,7 +21,7 @@ describe("Modal", () => {
         describe('when isOpen is true', () => {
             beforeEach(() => {
                 cy.mount(
-                    <Modal isOpen={true} onClose={() => {}} closeLabel={modalCloseLabel}>
+                    <Modal isOpen={true}>
                         <div>{modalChildContent}</div>
                     </Modal>
                 );
@@ -39,23 +38,6 @@ describe("Modal", () => {
             it('should render the child content in the modal', () => {
                 cy.get('.modal').contains(modalChildContent).should('exist');
             });
-
-            it('should render a close button with close label displayed', () => {
-                cy.get('.modal').get('button.modal--close').contains(modalCloseLabel).should('exist');
-            });
-        });
-    });
-
-    describe('close', () => {
-        it('should call onClose when close button is clicked', () => {
-            const onCloseSpy = cy.spy().as('onCloseSpy');
-            cy.mount(
-                <Modal isOpen={true} onClose={onCloseSpy} closeLabel={modalCloseLabel}>
-                    <div>{modalChildContent}</div>
-                </Modal>
-            );
-            cy.get('button.modal--close').click();
-            cy.get('@onCloseSpy').should('have.been.calledOnce');
         });
     });
 });

@@ -129,7 +129,7 @@ describe('Agreement Details Page', () => {
 
         it('should open the change payment date modal when clicking the button', () => {
             cy.get('.agreement__body button').contains('Change Payment Date').click();
-            cy.get('.modal').contains('Select new payment date').should('be.visible');
+            cy.get('.modal').contains('Select a new payment date').should('be.visible');
         });
     });
 });

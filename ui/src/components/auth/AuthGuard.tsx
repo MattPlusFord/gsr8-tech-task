@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import {useNavigate, useInRouterContext, useLocation} from "react-router-dom";
+import CookieUtils from "../../utils/cookies.ts";
 
 type AuthGuardProps = {
     children: React.ReactNode,
@@ -15,9 +16,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({children, redirectPath, unauthedRo
 
     let currentPath = useLocation();
 
-    const hasSession = document.cookie
-        .split("; ")
-        .some((cookie) => cookie.startsWith("fawdSession="));
+    const hasSession = CookieUtils.getCookieValue('fawdSession') !== undefined;
 
     const navigate = useNavigate();
 
@@ -26,7 +25,6 @@ const AuthGuard: React.FC<AuthGuardProps> = ({children, redirectPath, unauthedRo
             navigate(redirectPath, {replace: true});
         }
     }, [hasSession, navigate, redirectPath, currentPath]);
-
 
     return <>{children}</>;
 };

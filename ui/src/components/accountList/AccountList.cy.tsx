@@ -1,33 +1,42 @@
 import AccountList from "./AccountList.tsx";
+import CookieUtils from "../../utils/cookies.ts";
+import {MountLayer} from "../../../cypress/support/component.tsx";
 
 describe('AccountList', () => {
     describe('renders', () => {
+        const user = {id: "1", email: "john.doe@ford.com", name: "John Doe"}
         const accountListUrl = `**/agreements`;
         const validAccountData = [
             {
                 'id': "1",
-                'user': {id: "1", email: "john.doe@ford.com", name: "John Doe"},
-                'balance': 1234.56,
-                'interestRate': 5.3
+                'user': user,
+                'registration': 'AB12 CDE',
+                'make': 'Ford',
+                'model': 'Focus',
+                'variant': 'Zetec',
+                'year': 2020
             }, {
                 'id': "2",
-                'user': {id: "1", email: "john.doe@ford.com", name: "John Doe"},
-                'balance': 2345.67,
-                'interestRate': 4.8
+                'user': user,
+                'registration': 'AB12 CDE',
+                'make': 'Ford',
+                'model': 'Fiesta',
+                'variant': 'ST',
+                'year': 2020
             }
         ];
 
         beforeEach(() => {
-            cy.setCookie('fawdSession', 'valid-session-token', {secure: true, httpOnly: false, sameSite: 'no_restriction'});
+            cy.stub(CookieUtils, 'getCookieValue').callsFake(() => {return 'test-cookie'});
             cy.intercept('GET', accountListUrl, {
                 statusCode: 200,
                 body: validAccountData,});
-            cy.mount(<AccountList />)
+            cy.mountWith(<></>, [MountLayer.Router, MountLayer.Routes], { router: {initialEntries: ['/'] , routes: [{path: '/', component: <AccountList />}]}} );
         });
 
-        it('should show all the agreements', () => {
-            cy.contains(`Account number: ${validAccountData[0].id}`).should('be.visible');
-            cy.contains(`Account number: ${validAccountData[1].id}`).should('be.visible');
+        it.only('should show all the agreements', () => {
+            cy.contains(`${validAccountData[0].registration}`).should('be.visible');
+            cy.contains(`${validAccountData[1].registration}`).should('be.visible');
         });
     });
 });

@@ -1,4 +1,4 @@
-import {getCookieValue} from "../../utils/cookies.ts";
+import CookieUtils from "../../utils/cookies.ts";
 import CustomerSelectPage from "./CustomerSelectPage.tsx";
 import {MountLayer} from "../../../cypress/support/component.tsx";
 import {Route, Routes} from "react-router-dom";
@@ -52,7 +52,7 @@ describe("CustomerSelectPage", () => {
         it('should set display the error', () => {
             cy.get('input[type="email"]').should('exist').type('jdoe@ford.com');
             cy.contains('Continue').click();
-            expect(getCookieValue(fawdSession)).to.be.undefined;
+            expect(CookieUtils.getCookieValue(fawdSession)).to.be.undefined;
             cy.url().should('include', '/customer-select');
             cy.contains('Invalid email address').should('exist');
         });

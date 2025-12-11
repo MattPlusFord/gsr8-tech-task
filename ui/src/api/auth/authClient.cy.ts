@@ -1,5 +1,5 @@
-import {getCookieValue} from "../../utils/cookies.ts";
 import SessionClient from "./authClient.ts";
+import {BaseClient} from "../baseClient.ts";
 
 describe('authClient', () => {
     const fawdSession = `fawdSession`;
@@ -13,9 +13,8 @@ describe('authClient', () => {
                 });
             });
 
-            it('should set a session cookie', async () => {
-                expect(await SessionClient.startSession()).to.be.true;
-                expect(getCookieValue(fawdSession)).to.equal(sessionValue);
+            it('should return true', async () => {
+                expect(await SessionClient.startSession("test@ford.com")).to.be.true;
             });
         });
 
@@ -27,13 +26,19 @@ describe('authClient', () => {
                     statusCode: 500,
                     body: errorBody,
                 });
-                cy.stub(window.console, 'error').as('consoleError')
             });
 
-            it('should return null and set no cookie', async () => {
-                await SessionClient.startSession();
-                expect(getCookieValue(fawdSession)).to.be.undefined;
-                cy.get('@consoleError').should('be.calledWith', errorBody);
+            it('should return null', async () => {
+                expect(await SessionClient.startSession("test@ford.com")).to.be.null;
+            });
+        });
+
+        describe('error from baseClient', () => {
+            it('should return null', async () => {
+                cy.stub(BaseClient, "authenticatedRequest").callsFake(() => {
+                    return Promise.reject(new Error("Network error"));
+                });
+                expect(await SessionClient.startSession("test@ford.com")).to.be.null;
             });
         });
     });

@@ -1,8 +1,8 @@
-import { getCookieValue } from '../utils/cookies';
+import CookieUtils from '../utils/cookies';
 
 export class BaseClient {
     static async authenticatedRequest(endpoint: string, options?: RequestInit): Promise<Response | null> {
-        const sessionValue = getCookieValue('fawdSession');
+        const sessionValue = CookieUtils.getCookieValue('fawdSession');
         if (!sessionValue) {
             return null;
         }
