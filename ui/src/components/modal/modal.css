@@ -1,0 +1,32 @@
+.modal--overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 40px 50px;
+}
+
+.modal-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal--confirm {
+    background-color: #32a852;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}

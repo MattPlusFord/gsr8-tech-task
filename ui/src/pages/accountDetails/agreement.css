@@ -1,0 +1,39 @@
+.agreement {
+    max-width: 1200px;
+    margin: 50px auto 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.agreement__back {
+    color: #000000;
+    text-decoration: initial;
+}
+
+.agreement__body {
+    display: flex;
+    gap: 15rem;
+}
+
+.agreement__details {
+    flex: 1;
+}
+
+.agreement__detail-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.agreement__detail-heading {
+    font-weight: bold;
+}
+
+.agreement__image {
+    flex: 1;
+}
+
+.agreement__image img {
+    width: 100%;
+    margin-bottom: 3rem;
+}

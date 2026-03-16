@@ -1,9 +1,10 @@
 import './commands'
-
+import "@cypress/code-coverage/support";
 import { mount } from 'cypress/react18'
 import {ReactNode} from "react";
-import { MemoryRouter, MemoryRouterProps} from "react-router-dom";
+import {MemoryRouter, MemoryRouterProps, Route, Routes} from "react-router-dom";
 import ErrorBoundary from "../../src/components/errors/ErrorBoundary.tsx";
+import {RouteConfig} from "../../src/components/config/AppRoutes.tsx";
 
 declare global {
   namespace Cypress {
@@ -15,12 +16,30 @@ declare global {
 }
 
 type MountOptions = {
-  router?: MemoryRouterProps;
+  router?: MemoryRouterProps & Partial<{routes: RouteConfig[]}>;
 };
 
 export enum MountLayer {
   Router = "Router",
   ErrorBoundary = "ErrorBoundary",
+  Routes = "Routes",
+}
+
+function addRoutes(component: ReactNode, routes?: RouteConfig[]) {
+    if (!routes || routes.length === 0) {
+        return component;
+    }
+
+    return (
+        <>
+            {component}
+            <Routes>
+                {routes.map((route) => (
+                    <Route key={route.path} path={route.path} element={route.component} />
+                ))}
+            </Routes>
+        </>
+    )
 }
 
 function addRouterWrappedNode(component: ReactNode, routerOptions?: MountOptions['router']) {
@@ -48,7 +67,11 @@ function mountWith(component: ReactNode, mountLayers: MountLayer[], mountOptions
     return mountFn(mountComponents);
   }
 
-  if (mountLayers.includes(MountLayer.Router)) {
+  if (mountLayers.includes(MountLayer.Routes)) {
+    mountComponents = distinctLayerMount(MountLayer.Routes, (node: ReactNode) => addRoutes(node, mountOptions?.router?.routes));
+  }
+
+  if (mountLayers.includes(MountLayer.Router) || mountLayers.includes(MountLayer.Routes)) {
     mountComponents = distinctLayerMount(MountLayer.Router, (node: ReactNode) => addRouterWrappedNode(node, mountOptions?.router));
   }
 

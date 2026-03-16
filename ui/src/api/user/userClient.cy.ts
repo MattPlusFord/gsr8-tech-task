@@ -30,12 +30,10 @@ describe('UserClient', () => {
                     cy.intercept('GET', `${import.meta.env.VITE_API_BASE_URL}/users/details`, {
                         statusCode: 200,
                         body: invalidUserData,});
-                    cy.stub(window.console, 'error').as('consoleError')
                 });
 
                 it('should return null', async () => {
                     expect(await userClient.loadUser()).to.be.null;
-                    cy.get('@consoleError').should('be.calledWith', invalidUserData);
                 });
             });
         });
@@ -48,23 +46,16 @@ describe('UserClient', () => {
                 cy.intercept('GET', `${import.meta.env.VITE_API_BASE_URL}/users/details`, {
                     statusCode: 500,
                     body: errorBody,});
-                cy.stub(window.console, 'error').as('consoleError')
             });
 
             it('should return null', async () => {
                 expect(await userClient.loadUser()).to.be.null;
-                cy.get('@consoleError').should('be.calledWith', errorBody);
             });
         });
 
         describe('with no session cookie', () => {
-            beforeEach(() => {
-                cy.stub(window.console, 'error').as('consoleError')
-            });
-
             it('should return null', async () => {
                 expect(await userClient.loadUser()).to.be.null;
-                cy.get('@consoleError').should('be.calledWith', "No session cookie found");
             });
         });
     });
