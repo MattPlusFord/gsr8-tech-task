@@ -20,7 +20,18 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> getUserData() {
+        return userRepository.findAll();
+    }
+
     public User findById(Long id) {
+        validateId(id);
         return userRepository.findById(id).orElse(null);
+    }
+
+    private void validateId(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid ID provided");
+        }
     }
 }

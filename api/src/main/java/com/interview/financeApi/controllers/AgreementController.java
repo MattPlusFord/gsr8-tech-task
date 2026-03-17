@@ -1,6 +1,7 @@
 package com.interview.financeApi.controllers;
 
 import com.interview.financeApi.models.Agreement;
+import com.interview.financeApi.models.AgreementSummary;
 import com.interview.financeApi.services.AgreementService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +22,11 @@ public class AgreementController {
     public ResponseEntity<List<Agreement>> loadAccount(@RequestHeader(name = X_USER_ID) Long userId) {
         List<Agreement> financeAccount = agreementService.findByUserId(userId);
         return ResponseEntity.ok().body(financeAccount);
+    }
+
+    @GetMapping("/users/agreements/summary")
+    public ResponseEntity<AgreementSummary> getAgreementSummary(@RequestHeader(name = X_USER_ID) Long userId) {
+        AgreementSummary summary = agreementService.getAgreementSummary(userId);
+        return ResponseEntity.ok().body(summary);
     }
 }
